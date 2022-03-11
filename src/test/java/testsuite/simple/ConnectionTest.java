@@ -667,7 +667,7 @@ public class ConnectionTest extends BaseTestCase {
 
         String logAsString = BufferingLogger.getBuffer().toString();
 
-        String s = versionMeetsMinimum(8, 0, 3) ? "transaction_isolation" : "tx_isolation";
+        String s = versionMeetsMinimum(8, 0, 0) ? "transaction_isolation" : "tx_isolation";
 
         assertTrue(logAsString.indexOf("SET SESSION") == -1 && logAsString.indexOf("SHOW VARIABLES LIKE '" + s + "'") == -1
                 && logAsString.indexOf("SET autocommit=") == -1);
@@ -1529,7 +1529,7 @@ public class ConnectionTest extends BaseTestCase {
             props.setProperty(PropertyKey.useLocalSessionState.getKeyName(), "true");
             Connection localState = getConnectionWithProps(props);
 
-            String s = versionMeetsMinimum(8, 0, 3) ? "@@session.transaction_read_only" : "@@session.tx_read_only";
+            String s = versionMeetsMinimum(8, 0, 0) ? "@@session.transaction_read_only" : "@@session.tx_read_only";
 
             for (int i = 0; i < 2; i++) {
                 BufferingLogger.startLoggingToBuffer();

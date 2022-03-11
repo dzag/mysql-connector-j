@@ -392,7 +392,7 @@ public class NativeProtocol extends AbstractProtocol<NativePacketPayload> implem
 
         // Changing defaults for 8.0.3+ server: PNAME_useInformationSchema=true
         RuntimeProperty<Boolean> useInformationSchema = this.propertySet.<Boolean>getProperty(PropertyKey.useInformationSchema);
-        if (versionMeetsMinimum(8, 0, 3) && !useInformationSchema.getValue() && !useInformationSchema.isExplicitlySet()) {
+        if (versionMeetsMinimum(8, 0, 0) && !useInformationSchema.getValue() && !useInformationSchema.isExplicitlySet()) {
             useInformationSchema.setValue(true);
         }
 

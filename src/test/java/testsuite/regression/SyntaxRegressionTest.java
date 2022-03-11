@@ -1056,7 +1056,7 @@ public class SyntaxRegressionTest extends BaseTestCase {
         testJsonTypeCheckFunction("SELECT JSON_INSERT('[1]', '$[1]', 2)", "[1, 2]");
         testJsonTypeCheckFunction("SELECT JSON_KEYS('{\"a\": 1}')", "[\"a\"]");
         testJsonTypeCheckFunction("SELECT JSON_LENGTH('{\"a\": 1}')", "1");
-        testJsonTypeCheckFunction(versionMeetsMinimum(8, 0, 3) ? "SELECT JSON_MERGE_PRESERVE('[1]', '[2]')" : "SELECT JSON_MERGE('[1]', '[2]')", "[1, 2]");
+        testJsonTypeCheckFunction(versionMeetsMinimum(8, 0, 0) ? "SELECT JSON_MERGE_PRESERVE('[1]', '[2]')" : "SELECT JSON_MERGE('[1]', '[2]')", "[1, 2]");
         testJsonTypeCheckFunction("SELECT JSON_OBJECT('a', 1)", "{\"a\": 1}");
         testJsonTypeCheckFunction("SELECT JSON_QUOTE('[1]')", "\"[1]\"");
         testJsonTypeCheckFunction("SELECT JSON_REMOVE('[1, 2]', '$[1]')", "[1]");
@@ -1304,7 +1304,7 @@ public class SyntaxRegressionTest extends BaseTestCase {
 
     @Test
     private void testCreateTablespaceCheckTablespaces(int expectedTsCount) throws Exception {
-        if (versionMeetsMinimum(8, 0, 3)) {
+        if (versionMeetsMinimum(8, 0, 0)) {
             this.rs = this.stmt.executeQuery("SELECT COUNT(*) FROM information_schema.innodb_tablespaces WHERE name LIKE 'testTs_'");
         } else {
             this.rs = this.stmt.executeQuery("SELECT COUNT(*) FROM information_schema.innodb_sys_tablespaces WHERE name LIKE 'testTs_'");
@@ -1315,7 +1315,7 @@ public class SyntaxRegressionTest extends BaseTestCase {
 
     @Test
     private void testCreateTablespaceCheckTables(String tablespace, int expectedTblCount) throws Exception {
-        if (versionMeetsMinimum(8, 0, 3)) {
+        if (versionMeetsMinimum(8, 0, 0)) {
             this.rs = this.stmt.executeQuery("SELECT COUNT(*) FROM information_schema.innodb_tables a, information_schema.innodb_tablespaces b "
                     + "WHERE a.space = b.space AND b.name = '" + tablespace + "'");
         } else {
@@ -1376,7 +1376,7 @@ public class SyntaxRegressionTest extends BaseTestCase {
     private void testSetMergeThresholdIndices(int defaultMergeThreshold, Map<String, Integer> keyMergeThresholds) throws Exception {
         boolean dbMapsToSchema = ((JdbcConnection) this.conn).getPropertySet().<DatabaseTerm>getEnumProperty(PropertyKey.databaseTerm)
                 .getValue() == DatabaseTerm.SCHEMA;
-        if (versionMeetsMinimum(8, 0, 3)) {
+        if (versionMeetsMinimum(8, 0, 0)) {
             this.rs = this.stmt.executeQuery("SELECT name, merge_threshold FROM information_schema.innodb_indexes WHERE table_id = "
                     + "(SELECT table_id FROM information_schema.innodb_tables WHERE name = '"
                     + (dbMapsToSchema ? this.conn.getSchema() : this.conn.getCatalog()) + "/testSetMergeThreshold')");

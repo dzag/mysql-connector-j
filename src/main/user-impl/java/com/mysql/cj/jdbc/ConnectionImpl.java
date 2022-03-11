@@ -1209,7 +1209,7 @@ public class ConnectionImpl implements JdbcConnection, SessionEventListener, Ser
         synchronized (getConnectionMutex()) {
             if (!this.useLocalSessionState.getValue()) {
                 String s = this.session.queryServerVariable(
-                        versionMeetsMinimum(8, 0, 3) || (versionMeetsMinimum(5, 7, 20) && !versionMeetsMinimum(8, 0, 0)) ? "@@session.transaction_isolation"
+                        versionMeetsMinimum(8, 0, 0) || (versionMeetsMinimum(5, 7, 20) && !versionMeetsMinimum(8, 0, 0)) ? "@@session.transaction_isolation"
                                 : "@@session.tx_isolation");
 
                 if (s != null) {
@@ -1394,7 +1394,7 @@ public class ConnectionImpl implements JdbcConnection, SessionEventListener, Ser
         if (useSessionStatus && !this.session.isClosed() && versionMeetsMinimum(5, 6, 5) && !this.useLocalSessionState.getValue()
                 && this.readOnlyPropagatesToServer.getValue()) {
             String s = this.session.queryServerVariable(
-                    versionMeetsMinimum(8, 0, 3) || (versionMeetsMinimum(5, 7, 20) && !versionMeetsMinimum(8, 0, 0)) ? "@@session.transaction_read_only"
+                    versionMeetsMinimum(8, 0, 0) || (versionMeetsMinimum(5, 7, 20) && !versionMeetsMinimum(8, 0, 0)) ? "@@session.transaction_read_only"
                             : "@@session.tx_read_only");
             if (s != null) {
                 return Integer.parseInt(s) != 0; // mysql has a habit of tri+ state booleans

@@ -1478,7 +1478,7 @@ public class ConnectionRegressionTest extends BaseTestCase {
             loggedConn = getConnectionWithProps(props);
             loggedConn.getTransactionIsolation();
 
-            String s = versionMeetsMinimum(8, 0, 3) ? "transaction_isolation" : "tx_isolation";
+            String s = versionMeetsMinimum(8, 0, 0) ? "transaction_isolation" : "tx_isolation";
             assertEquals(-1, BufferingLogger.getBuffer().toString().indexOf("SHOW VARIABLES LIKE '" + s + "'"));
         } finally {
             BufferingLogger.dropBuffer();
@@ -9388,7 +9388,7 @@ public class ConnectionRegressionTest extends BaseTestCase {
     @Test
     public void testCachingSha2PasswordPlugin() throws Exception {
 
-        assumeTrue(((MysqlConnection) this.conn).getSession().versionMeetsMinimum(8, 0, 3), "Requires MySQL 8.0.3+.");
+        assumeTrue(((MysqlConnection) this.conn).getSession().versionMeetsMinimum(8, 0, 0), "Requires MySQL 8.0.3+.");
         assumeTrue((((MysqlConnection) this.conn).getSession().getServerSession().getCapabilities().getCapabilityFlags() & NativeServerSession.CLIENT_SSL) != 0,
                 "This test requires server with SSL support.");
         assumeTrue(supportsTestCertificates(this.stmt),
@@ -10458,7 +10458,7 @@ public class ConnectionRegressionTest extends BaseTestCase {
             this.rs = s2.executeQuery("show tables"); // was failing with exception
 
             // create user with required password and caching_sha2_password auth
-            if (sess.versionMeetsMinimum(8, 0, 3)) {
+            if (sess.versionMeetsMinimum(8, 0, 0)) {
                 assertTrue(pluginIsActive(s1, "caching_sha2_password"), "caching_sha2_password required to run this test");
                 // create user with required password and sha256_password auth
                 createUser(s1, "'Bug25642226u2'@'%'", "identified WITH caching_sha2_password");
